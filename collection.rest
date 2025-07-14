@@ -1,0 +1,31 @@
+# GET http://localhost:8080/health
+# Content-Type: application/json
+
+# POST http://localhost:8080/api/v1/auth/register
+# Content-Type: application/json
+
+# {
+#     "username": "testuser2",
+#     "email": "testuser2@example.com",
+#     "first_name":"Yonas",
+#     "last_name":"Mekonnen",
+#     "role":"admin",
+#     "password": "securepassword123"
+    
+# }
+
+# GET http://localhost:8080/api/v1/users
+# Content-Type: application/json
+
+# POST http://localhost:8080/api/v1/auth/login
+# Content-Type: application/json
+
+# {
+#     "email":"testuser@example.com",
+#     "password":"securepassword123"
+# }
+
+# GET http://localhost:8080/api/v1/users
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjg3NGZkNjUzYzljMmMwMDA3YTJmODA1IiwiZW1haWwiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1MjU4NDAyMywiaWF0IjoxNzUyNDk3NjIzfQ.O75sIFPlprHRW7uwEWiDoG6ZowAifqooF3gx0oUa6wY
+
