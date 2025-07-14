@@ -54,7 +54,7 @@ type UserResponse struct {
 	UpdatedAt time.Time          `json:"updated_at"`
 }
 
-func (u *user) ToResponse() *UserResponse {
+func (u *User) ToResponse() *UserResponse {
 	return &UserResponse{
 		ID:        u.ID,
 		Username:  u.Username,
