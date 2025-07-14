@@ -108,7 +108,7 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, models.APIResponse{
 			Success: false,
 			Message: "Validation failed",
-			Error:   utils.FormatValidationError(err),
+			Error:   utils.FormatValidationError(err, models.CreateUserRequest{}),
 		})
 		return
 	}
@@ -163,7 +163,7 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, models.APIResponse{
 			Success: false,
 			Message: "Validation failed",
-			Error:   utils.FormatValidationError(err),
+			Error:   utils.FormatValidationError(err, models.UpdateUserRequest{}),
 		})
 		return
 	}

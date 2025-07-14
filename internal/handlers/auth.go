@@ -34,7 +34,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, models.APIResponse{
 			Success: false,
 			Message: "Validation failed",
-			Error:   utils.FormatValidationError(err),
+			Error:   utils.FormatValidationError(err, models.CreateUserRequest{}),
 		})
 		return
 	}
@@ -77,7 +77,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, models.APIResponse{
 			Success: false,
 			Message: "Validation failed",
-			Error:   utils.FormatValidationError(err),
+			Error:   utils.FormatValidationError(err, models.LoginRequest{}),
 		})
 		return
 	}
