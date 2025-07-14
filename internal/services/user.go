@@ -22,8 +22,8 @@ func NewUserRepository(userRepo interfaces.UserRepository) *UserService {
 	}
 }
 
-func (s *UserService) GetByID(ctx *context.Context, id primitive.ObjectID) (*models.UserResponse, error) {
-	user, err := s.userRepo.GetByID(*ctx, id)
+func (s *UserService) GetByID(ctx context.Context, id primitive.ObjectID) (*models.UserResponse, error) {
+	user, err := s.userRepo.GetByID(ctx, id)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, errors.ErrUserNotFound
@@ -33,7 +33,7 @@ func (s *UserService) GetByID(ctx *context.Context, id primitive.ObjectID) (*mod
 	return user.ToResponse(), nil
 }
 
-func (s *UserService) Create(ctx context.Context, req models.CreateUserRequest) (*models.UserResponse, error) {
+func (s *UserService) Create(ctx context.Context, req *models.CreateUserRequest) (*models.UserResponse, error) {
 	if _, err := s.userRepo.GetByEmail(ctx, req.Email); err == nil {
 		return nil, errors.ErrUserExists
 	}
