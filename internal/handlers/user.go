@@ -23,6 +23,16 @@ func NewUserHandler(userService *services.UserService) *UserHandler {
 	}
 }
 
+// GetProfile godoc
+// @Summary      Get user profile
+// @Description  Get the profile of the currently authenticated user
+// @Tags         users
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {object}  models.APIResponse{data=models.UserResponse} "Profile retrieved successfully"
+// @Failure      401  {object}  models.APIResponse "Unauthorized"
+// @Failure      500  {object}  models.APIResponse "Internal server error"
+// @Router       /users/profile [get]
 func (h *UserHandler) GetProfile(c *gin.Context) {
 	userID, err := middleware.GetUserId(c)
 	if err != nil {
@@ -57,6 +67,18 @@ func (h *UserHandler) GetProfile(c *gin.Context) {
 	})
 }
 
+// GetUser godoc
+// @Summary      Get a user by ID
+// @Description  Get a single user by their ID (Admin only)
+// @Tags         users
+// @Produce      json
+// @Param        id   path      string  true  "User ID"
+// @Security     BearerAuth
+// @Success      200  {object}  models.APIResponse{data=models.UserResponse} "User retrieved successfully"
+// @Failure      400  {object}  models.APIResponse "Invalid user ID"
+// @Failure      404  {object}  models.APIResponse "User not found"
+// @Failure      500  {object}  models.APIResponse "Internal server error"
+// @Router       /users/{id} [get]
 func (h *UserHandler) GetUser(c *gin.Context) {
 	idParam := c.Param("id")
 	userID, err := primitive.ObjectIDFromHex(idParam)
@@ -92,6 +114,19 @@ func (h *UserHandler) GetUser(c *gin.Context) {
 	})
 }
 
+// CreateUser godoc
+// @Summary      Create a new user
+// @Description  Create a new user (Admin only)
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        user  body      models.CreateUserRequest  true  "New User Info"
+// @Security     BearerAuth
+// @Success      201  {object}  models.APIResponse{data=models.UserResponse} "User created successfully"
+// @Failure      400  {object}  models.APIResponse{error=map[string]string} "Validation failed or invalid request"
+// @Failure      409  {object}  models.APIResponse "User already exists"
+// @Failure      500  {object}  models.APIResponse "Internal server error"
+// @Router       /users [post]
 func (h *UserHandler) CreateUser(c *gin.Context) {
 	var req models.CreateUserRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -137,6 +172,20 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 	})
 }
 
+// UpdateUser godoc
+// @Summary      Update a user
+// @Description  Update an existing user's details by ID (Admin only)
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        id    path      string                   true  "User ID"
+// @Param        user  body      models.UpdateUserRequest  true  "User Update Info"
+// @Security     BearerAuth
+// @Success      200  {object}  models.APIResponse{data=models.UserResponse} "User updated successfully"
+// @Failure      400  {object}  models.APIResponse{error=map[string]string} "Validation failed or invalid request"
+// @Failure      404  {object}  models.APIResponse "User not found"
+// @Failure      500  {object}  models.APIResponse "Internal server error"
+// @Router       /users/{id} [put]
 func (h *UserHandler) UpdateUser(c *gin.Context) {
 	idParam := c.Param("id")
 	userID, err := primitive.ObjectIDFromHex(idParam)
@@ -192,6 +241,18 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 	})
 }
 
+// DeleteUser godoc
+// @Summary      Delete a user
+// @Description  Delete a user by their ID (Admin only)
+// @Tags         users
+// @Produce      json
+// @Param        id   path      string  true  "User ID"
+// @Security     BearerAuth
+// @Success      200  {object}  models.APIResponse "User deleted successfully"
+// @Failure      400  {object}  models.APIResponse "Invalid user ID"
+// @Failure      404  {object}  models.APIResponse "User not found"
+// @Failure      500  {object}  models.APIResponse "Internal server error"
+// @Router       /users/{id} [delete]
 func (h *UserHandler) DeleteUser(c *gin.Context) {
 	idParam := c.Param("id")
 	userID, err := primitive.ObjectIDFromHex(idParam)
@@ -226,6 +287,18 @@ func (h *UserHandler) DeleteUser(c *gin.Context) {
 	})
 }
 
+// ListUsers godoc
+// @Summary      List users
+// @Description  Get a paginated list of all users (Admin only)
+// @Tags         users
+// @Produce      json
+// @Param        page   query     int  false  "Page number"  default(1)
+// @Param        limit  query     int  false  "Items per page" default(10)
+// @Security     BearerAuth
+// @Success      200  {object}  models.PaginatedUserResponse "Users retrieved successfully"
+// @Failure      401  {object}  models.APIResponse "Unauthorized"
+// @Failure      500  {object}  models.APIResponse "Internal server error"
+// @Router       /users [get]
 func (h *UserHandler) ListUsers(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))

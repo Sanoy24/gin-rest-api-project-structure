@@ -15,8 +15,21 @@ import (
 	"user-management-api/internal/services"
 	"user-management-api/pkg/database"
 
+	_ "user-management-api/docs" // This line is needed for swag to find your docs
+
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+// @title Go Gin Layered Architecture API
+// @version 1.0
+// @description A template for building RESTful APIs in Go using the Gin framework with a layered architecture.
+// @host localhost:8080
+// @BasePath /api/v1
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 
 func main() {
 	cfg, err := config.LoadConfig()
@@ -88,6 +101,8 @@ func setupRouter(cfg *config.Config, healthHandler *handlers.HealthHandler, auth
 	router.Use(gin.Recovery())
 
 	router.GET("/health", healthHandler.HealthCheck)
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	v1 := router.Group("/api/v1")
 	{

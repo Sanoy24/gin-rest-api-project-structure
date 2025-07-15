@@ -20,6 +20,18 @@ func NewAuthHandler(authService *services.AuthService) *AuthHandler {
 	}
 }
 
+// Register godoc
+// @Summary      Register a new user
+// @Description  Create a new user account
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param        user  body      models.CreateUserRequest  true  "User Registration Info"
+// @Success      201   {object}  models.APIResponse{data=models.AuthResponse} "User created successfully"
+// @Failure      400   {object}  models.APIResponse{error=map[string]string} "Validation failed or invalid request"
+// @Failure      409   {object}  models.APIResponse "User already exists"
+// @Failure      500   {object}  models.APIResponse "Internal server error"
+// @Router       /auth/register [post]
 func (h *AuthHandler) Register(c *gin.Context) {
 	var req models.CreateUserRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -61,6 +73,18 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	})
 }
 
+// Login godoc
+// @Summary      Login a user
+// @Description  Authenticate a user and get a JWT token
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param        credentials  body      models.LoginRequest  true  "User Login Credentials"
+// @Success      200          {object}  models.APIResponse{data=models.AuthResponse} "Login successful"
+// @Failure      400          {object}  models.APIResponse{error=map[string]string} "Validation failed or invalid request"
+// @Failure      401          {object}  models.APIResponse "Invalid credentials or inactive user"
+// @Failure      500          {object}  models.APIResponse "Internal server error"
+// @Router       /auth/login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
 	var req models.LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
